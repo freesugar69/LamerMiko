@@ -12,12 +12,21 @@ if (localRecords.length > 0 && typeof localRecords[0] === 'number') {
     localStorage.setItem('whackAMoleRecords', JSON.stringify(localRecords));
 }
 
-// Load global records from JSON
+// JSONBin configuration
+const JSONBIN_BIN_ID = '6915189203998b11ea8d9246';
+const JSONBIN_API_KEY = '$2a$10$hFcXan4wxOLaUeTwHYqq..haCSPKthSQzJ5PqawKa6Q9qM7oGzI.O';
+
+// Load global records from JSONBin
 async function loadGlobalRecords() {
     try {
-        const response = await fetch('records.json');
+        const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+            headers: {
+                'X-Master-Key': JSONBIN_API_KEY
+            }
+        });
         if (response.ok) {
-            records = await response.json();
+            const data = await response.json();
+            records = data.record || [];
         } else {
             records = [];
         }
@@ -31,11 +40,25 @@ async function loadGlobalRecords() {
     records = records.slice(0, 10);
 }
 
-// Save global records (simulate by updating local for now, in real scenario use API)
+// Save global records to JSONBin
 async function saveGlobalRecords() {
-    // For GitHub Pages, we can't write to JSON directly, so this is a placeholder
-    // In a real setup, you'd use a backend API to update the JSON
-    console.log('Record salvato localmente. Per globale, servirebbe un backend.');
+    try {
+        const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': JSONBIN_API_KEY
+            },
+            body: JSON.stringify(records)
+        });
+        if (response.ok) {
+            console.log('Record salvato globalmente.');
+        } else {
+            console.error('Errore nel salvataggio globale.');
+        }
+    } catch (error) {
+        console.error('Errore nel salvataggio globale:', error);
+    }
 }
 let level = 1;
 let gridSize = 3;
