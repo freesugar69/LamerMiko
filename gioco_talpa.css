@@ -1,0 +1,103 @@
+#menu, #records-list, #game-container {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+#menu h2, #records-list h2 {
+    margin-bottom: 20px;
+}
+
+#score, #timer {
+    font-size: 24px;
+    margin: 10px;
+}
+
+#grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 20px auto;
+    width: 300px;
+}
+
+#grid.grid-4x4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin: 20px auto;
+    width: 320px;
+}
+
+#grid.grid-5x5 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin: 20px auto;
+    width: 350px;
+}
+
+.hole {
+    width: 80px;
+    height: 80px;
+    background-color: #8B4513;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.mole {
+    width: 60px;
+    height: 60px;
+    background-image: url('Mole-Animal-Download-Free-PNG.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: bottom 0.3s, opacity 0.3s;
+}
+
+.hole.active .mole {
+    bottom: 10px;
+    opacity: 1;
+}
+
+#start-btn, #pause-btn, #restart-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+#start-btn:hover, #pause-btn:hover, #restart-btn:hover {
+    background-color: #45a049;
+}
+
+#message {
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+#name-input {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#name-input input {
+    padding: 5px;
+    font-size: 16px;
+}
+
+#name-input button {
+    margin: 5px;
+    padding: 5px 10px;
+}

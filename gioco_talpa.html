@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acchiappa la Talpa</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="gioco_talpa.css">
+</head>
+<body>
+    <header>
+        <h1>Acchiappa la Talpa!</h1>
+    </header>
+    <main>
+        <div id="menu">
+            <h2>Menu Principale</h2>
+            <button id="new-game-btn">Nuova Partita</button>
+            <button id="records-btn">Record</button>
+            <button id="exit-btn">Esci</button>
+        </div>
+        <div id="records-list" style="display: none;">
+            <h2>Record</h2>
+            <ul id="records-ul"></ul>
+            <button id="back-to-menu-btn">Torna al Menu</button>
+        </div>
+        <div id="game-container" style="display: none;">
+            <div id="level">Livello: 1</div>
+            <div id="score">Punteggio: 0</div>
+            <div id="timer">Tempo: 30</div>
+            <div id="grid" class="grid-3x3">
+                <div class="hole" id="hole1"><div class="mole"></div></div>
+                <div class="hole" id="hole2"><div class="mole"></div></div>
+                <div class="hole" id="hole3"><div class="mole"></div></div>
+                <div class="hole" id="hole4"><div class="mole"></div></div>
+                <div class="hole" id="hole5"><div class="mole"></div></div>
+                <div class="hole" id="hole6"><div class="mole"></div></div>
+                <div class="hole" id="hole7"><div class="mole"></div></div>
+                <div class="hole" id="hole8"><div class="mole"></div></div>
+                <div class="hole" id="hole9"><div class="mole"></div></div>
+                <div class="hole" id="hole10"><div class="mole"></div></div>
+                <div class="hole" id="hole11"><div class="mole"></div></div>
+                <div class="hole" id="hole12"><div class="mole"></div></div>
+                <div class="hole" id="hole13"><div class="mole"></div></div>
+                <div class="hole" id="hole14"><div class="mole"></div></div>
+                <div class="hole" id="hole15"><div class="mole"></div></div>
+                <div class="hole" id="hole16"><div class="mole"></div></div>
+                <div class="hole" id="hole17"><div class="mole"></div></div>
+                <div class="hole" id="hole18"><div class="mole"></div></div>
+                <div class="hole" id="hole19"><div class="mole"></div></div>
+                <div class="hole" id="hole20"><div class="mole"></div></div>
+                <div class="hole" id="hole21"><div class="mole"></div></div>
+                <div class="hole" id="hole22"><div class="mole"></div></div>
+                <div class="hole" id="hole23"><div class="mole"></div></div>
+                <div class="hole" id="hole24"><div class="mole"></div></div>
+                <div class="hole" id="hole25"><div class="mole"></div></div>
+            </div>
+            <button id="pause-btn" disabled>Pausa</button>
+            <button id="restart-btn">Riavvia</button>
+            <button id="back-to-menu-from-game-btn">Torna al Menu</button>
+            <div id="message"></div>
+            <div id="name-input" style="display: none;">
+                <p>Inserisci il tuo nome per salvare il record:</p>
+                <input type="text" id="player-name" maxlength="20">
+                <button id="save-record-btn">Salva</button>
+                <button id="skip-save-btn">Salta</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 LamerMiko</p>
+    </footer>
+    <script src="gioco_talpa.js"></script>
+</body>
+</html>
