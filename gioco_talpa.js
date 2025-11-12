@@ -12,9 +12,37 @@ if (localRecords.length > 0 && typeof localRecords[0] === 'number') {
     localStorage.setItem('whackAMoleRecords', JSON.stringify(localRecords));
 }
 
-// Records are stored locally in localStorage
-// For global sharing, a backend service like Firebase or JSONBin would be needed
-// For now, records are local to the browser
+// Firebase global records
+async function loadGlobalRecords() {
+    try {
+        const recordsRef = window.firebaseRef(window.firebaseDB, 'records');
+        const snapshot = await window.firebaseGet(recordsRef);
+        if (snapshot.exists()) {
+            records = snapshot.val() || [];
+        } else {
+            records = [];
+        }
+    } catch (error) {
+        console.error('Errore nel caricamento dei record globali:', error);
+        records = [];
+    }
+    // Merge with local records
+    records = [...records, ...localRecords];
+    records.sort((a, b) => b.score - a.score);
+    records = records.slice(0, 10);
+}
+
+// Save global records to Firebase
+async function saveGlobalRecords() {
+    try {
+        const recordsRef = window.firebaseRef(window.firebaseDB, 'records');
+        await window.firebaseSet(recordsRef, records);
+        console.log('Record salvato globalmente.');
+    } catch (error) {
+        console.error('Errore nel salvataggio globale:', error);
+    }
+}
+
 let level = 1;
 let gridSize = 3;
 
@@ -128,7 +156,7 @@ function saveRecord(newScore, name) {
     records.sort((a, b) => b.score - a.score);
     records = records.slice(0, 10); // Keep top 10
     localStorage.setItem('whackAMoleRecords', JSON.stringify(records));
-    // Records are local only
+    saveGlobalRecords(); // Attempt to save globally
 }
 
 function showMenu() {
