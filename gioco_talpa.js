@@ -4,11 +4,38 @@ let gameInterval;
 let moleInterval;
 let activeHole = null;
 let isPaused = false;
-let records = JSON.parse(localStorage.getItem('whackAMoleRecords')) || [];
+let records = [];
+let localRecords = JSON.parse(localStorage.getItem('whackAMoleRecords')) || [];
 // Migrate old records if they are numbers
-if (records.length > 0 && typeof records[0] === 'number') {
-    records = records.map(score => ({ score: score, name: 'Anonimo' }));
-    localStorage.setItem('whackAMoleRecords', JSON.stringify(records));
+if (localRecords.length > 0 && typeof localRecords[0] === 'number') {
+    localRecords = localRecords.map(score => ({ score: score, name: 'Anonimo' }));
+    localStorage.setItem('whackAMoleRecords', JSON.stringify(localRecords));
+}
+
+// Load global records from JSON
+async function loadGlobalRecords() {
+    try {
+        const response = await fetch('records.json');
+        if (response.ok) {
+            records = await response.json();
+        } else {
+            records = [];
+        }
+    } catch (error) {
+        console.error('Errore nel caricamento dei record globali:', error);
+        records = [];
+    }
+    // Merge with local records
+    records = [...records, ...localRecords];
+    records.sort((a, b) => b.score - a.score);
+    records = records.slice(0, 10);
+}
+
+// Save global records (simulate by updating local for now, in real scenario use API)
+async function saveGlobalRecords() {
+    // For GitHub Pages, we can't write to JSON directly, so this is a placeholder
+    // In a real setup, you'd use a backend API to update the JSON
+    console.log('Record salvato localmente. Per globale, servirebbe un backend.');
 }
 let level = 1;
 let gridSize = 3;
@@ -52,6 +79,9 @@ skipSaveBtn.addEventListener('click', skipSave);
 holes.forEach(hole => {
     hole.addEventListener('click', whackMole);
 });
+
+// Load records on page load
+loadGlobalRecords();
 
 function startGame() {
     score = 0;
@@ -120,6 +150,7 @@ function saveRecord(newScore, name) {
     records.sort((a, b) => b.score - a.score);
     records = records.slice(0, 10); // Keep top 10
     localStorage.setItem('whackAMoleRecords', JSON.stringify(records));
+    saveGlobalRecords(); // Attempt to save globally
 }
 
 function showMenu() {
