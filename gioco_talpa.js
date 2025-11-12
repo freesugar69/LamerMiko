@@ -12,54 +12,9 @@ if (localRecords.length > 0 && typeof localRecords[0] === 'number') {
     localStorage.setItem('whackAMoleRecords', JSON.stringify(localRecords));
 }
 
-// JSONBin configuration
-const JSONBIN_BIN_ID = '6915189203998b11ea8d9246';
-const JSONBIN_API_KEY = '$2a$10$hFcXan4wxOLaUeTwHYqq..haCSPKthSQzJ5PqawKa6Q9qM7oGzI.O';
-
-// Load global records from JSONBin
-async function loadGlobalRecords() {
-    try {
-        const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
-            headers: {
-                'X-Master-Key': JSONBIN_API_KEY
-            }
-        });
-        if (response.ok) {
-            const data = await response.json();
-            records = data.record || [];
-        } else {
-            records = [];
-        }
-    } catch (error) {
-        console.error('Errore nel caricamento dei record globali:', error);
-        records = [];
-    }
-    // Merge with local records
-    records = [...records, ...localRecords];
-    records.sort((a, b) => b.score - a.score);
-    records = records.slice(0, 10);
-}
-
-// Save global records to JSONBin
-async function saveGlobalRecords() {
-    try {
-        const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Master-Key': JSONBIN_API_KEY
-            },
-            body: JSON.stringify(records)
-        });
-        if (response.ok) {
-            console.log('Record salvato globalmente.');
-        } else {
-            console.error('Errore nel salvataggio globale.');
-        }
-    } catch (error) {
-        console.error('Errore nel salvataggio globale:', error);
-    }
-}
+// Records are stored locally in localStorage
+// For global sharing, a backend service like Firebase or JSONBin would be needed
+// For now, records are local to the browser
 let level = 1;
 let gridSize = 3;
 
@@ -104,7 +59,7 @@ holes.forEach(hole => {
 });
 
 // Load records on page load
-loadGlobalRecords();
+loadRecords();
 
 function startGame() {
     score = 0;
@@ -173,7 +128,7 @@ function saveRecord(newScore, name) {
     records.sort((a, b) => b.score - a.score);
     records = records.slice(0, 10); // Keep top 10
     localStorage.setItem('whackAMoleRecords', JSON.stringify(records));
-    saveGlobalRecords(); // Attempt to save globally
+    // Records are local only
 }
 
 function showMenu() {
